@@ -4,7 +4,7 @@ import {Button, Badge, Spinner} from 'react-bootstrap'
 import useCards from "./useCards";
 import './Game.css';
 import Card from './Card';
-
+import ChangeCardSetModal from './ChangeCardSetModal';
 export default function Game({title}) {
 
     const initValue = 'people';
@@ -12,7 +12,10 @@ export default function Game({title}) {
     const [showModal, setShowModal] = useState(false);
     const {play, setCurrComp, loading, player, computer, computerUncovered, selectedProperty, getProperties, playersTurn, reset} = useCards(initValue);
 
-    const toggle = () => setShowModal(x => !x);
+
+    const toggle = () => {
+        setShowModal(true);
+    }
 
     function setCurrentOptionHandler(e) {
         const value = e.currentTarget.value;
@@ -27,6 +30,7 @@ export default function Game({title}) {
                 <Button variant="primary" className={"header"} onClick={toggle}>
                     Current card set <Badge variant="light">{compareType}</Badge>
                 </Button>
+                <ChangeCardSetModal show={showModal}></ChangeCardSetModal>
                 {/* TODO Task 1 */}
                 {/* TODO Task 1 */}
                 <h1 className={"header"}>

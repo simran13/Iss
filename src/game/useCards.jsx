@@ -16,16 +16,26 @@ export default function useCards(initialComp){
     const [currComp, setCurrComp] = useState(initialComp);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
+    useEffect( () => {
         setLoading(true);
-        getData();
+       getData();
     }, [currComp])
 
     /**
      * get async data from external api
      */
-    function getData(){
-        const url = `https://swapi.dev/api/${currComp}`;
+
+    async function getData(){
+        const url = await fetch(`https://swapi.py4e.com//api/${currComp}`,{ mode: 'cors' });
+        const response = await url.json();
+        console.log(response)
+        
+        setLoading(false)
+
+        dealCards(response.results)
+        return response
+        
+        
         {/* TODO Task 2 */}
         {/* TODO Task 2 */}
     }
@@ -57,6 +67,8 @@ export default function useCards(initialComp){
         const firstComputer = computer[0];
         let playerNew, computerNew = [];
         {/* TODO Task 4 splice the first card from player and computer */}
+        player.slice(1,0)
+        computer.slice(1,0)
 
         {/* TODO Task 4 */}
 
@@ -64,6 +76,9 @@ export default function useCards(initialComp){
             // player wins - player gets computers card
             playersTurnUpdate = true;
             {/* TODO Task 4 update players array */}
+            setPlayer(computer)
+
+        
 
             {/* TODO Task 4 */}
 
@@ -73,8 +88,10 @@ export default function useCards(initialComp){
             }
         } else if (firstPlayer[prop] < firstComputer[prop]) {
             // computer wins - computer gets players card
+            
             playersTurnUpdate = false;
             {/* TODO Task 4 update computers array */}
+            setComputer(player)
 
             {/* TODO Task 4 */}
 
@@ -85,7 +102,8 @@ export default function useCards(initialComp){
         } else {
             // draw - no card changes
             {/* TODO Task 4 update players and computers array */}
-
+setPlayer(player)
+setComputer(computer)
             {/* TODO Task 4 */}
         }
 
